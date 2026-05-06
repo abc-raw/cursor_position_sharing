@@ -1,0 +1,23 @@
+{
+  "name": "cursor_position_sharing",
+  "version": "1.0.0",
+  "description": "cursor position-sharing with WebSockets",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abc-raw/cursor_position_sharing.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abc-raw/cursor_position_sharing/issues"
+  },
+  "homepage": "https://github.com/abc-raw/cursor_position_sharing#readme",
+  "dependencies": {
+    "ws": "^8.20.0"
+  }
+}
