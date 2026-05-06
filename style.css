@@ -10,7 +10,7 @@ body {
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
-  /* cursor: none; */
+  cursor: none;
 }
 
 svg {
