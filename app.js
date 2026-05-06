@@ -9,9 +9,30 @@
   };
 
   ws.onmessage = (wsmessage) => {
+    const width = window.innerWidth;
+    const margin = 0.05 * width;
+    const height = window.innerHeight;
+
     const message = JSON.parse(wsmessage.data);
     const cursor = getOrCreateCursorFor(message);
-    cursor.style.transform = `translate(${message.x}px, ${message.y}px)`;
+
+    let angle = null;
+
+    if (message.x < margin) {
+      angle = 0; // right
+    } else if (message.x > width - margin) {
+      angle = 90; // down
+    } else if (message.y < margin) {
+      angle = 180; // left
+    } else if (message.y > height - margin) {
+      angle = 270; // up
+    }
+
+    if (angle !== null) {
+      cursor.style.transform = `translate(${message.x}px, ${message.y}px) translate(-50%, -50%) rotate(${angle}deg)`;
+    } else {
+      cursor.style.transform = `translate(${message.x}px, ${message.y}px) translate(-50%, -50%)`;
+    }
   };
 })();
 

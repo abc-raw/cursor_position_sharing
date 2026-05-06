@@ -10,13 +10,19 @@ body {
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
-  cursor: none;
+  /* cursor: none; */
+}
+
+svg {
+  transform-style: preserve-3d;
 }
 
 .cursor {
+  width: 5rem;
+
   position: absolute;
-  width: 1rem;
-  height: auto;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease;
   pointer-events: none;
   stroke: #111;
   stroke-width: 4;
