@@ -9,30 +9,45 @@
   };
 
   ws.onmessage = (wsmessage) => {
-    const width = window.innerWidth;
-    const margin = 0.05 * width;
-    const height = window.innerHeight;
-
     const message = JSON.parse(wsmessage.data);
     const cursor = getOrCreateCursorFor(message);
 
+    const width = window.innerWidth;
+    const margin = 5 * 16;
+    const height = window.innerHeight;
+
     let angle = null;
 
-    if (message.x < margin) {
-      angle = 0; // right
-    } else if (message.x > width - margin) {
-      angle = 90; // down
-    } else if (message.y < margin) {
-      angle = 180; // left
-    } else if (message.y > height - margin) {
-      angle = 270; // up
+    const distLeft = message.x;
+    const distRight = width - message.x;
+    const distTop = message.y;
+    const distBottom = height - message.y;
+
+    const min = Math.min(distLeft, distBottom, distRight, distTop);
+
+    if (min < margin) {
+      if (min === distLeft) angle = 180;
+      else if (min === distRight) angle = 0;
+      else if (min === distTop) angle = 270;
+      else if (min === distBottom) angle = 90;
+    } else {
+      const dx = message.x - (cursor._prevX ?? message.x);
+      const dy = message.y - (cursor._prevY ?? message.y);
+
+      if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+        if (Math.abs(dx) > Math.abs(dy)) {
+          angle = dx > 0 ? 0 : 180;
+        } else {
+          angle = dy > 0 ? 90 : -90;
+        }
+      }
     }
 
     if (angle !== null) {
       cursor.style.transform = `translate(${message.x}px, ${message.y}px) translate(-50%, -50%) rotate(${angle}deg)`;
-    } else {
-      cursor.style.transform = `translate(${message.x}px, ${message.y}px) translate(-50%, -50%)`;
     }
+    cursor._prevX = message.x;
+    cursor._prevY = message.y;
   };
 })();
 
